@@ -26,22 +26,8 @@ class SIMULATION:
 			print(step)
 			p.stepSimulation()
 			self.robot.sense(step)
-			# #backLegSensorValues[step] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
-			# #frontLegSensorValues[step] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
-			# pyrosim.Set_Motor_For_Joint(
-			# bodyIndex = self.robot.robotId,
-			# jointName = b'Torso_BackLeg',
-			# controlMode = p.POSITION_CONTROL,
-			# targetPosition = frontTargetVals[step],
-			# maxForce = 50)
-			# pyrosim.Set_Motor_For_Joint(
-			# bodyIndex = self.robot.robotId,
-			# jointName = b'Torso_FrontLeg',
-			# controlMode = p.POSITION_CONTROL,
-			# targetPosition = backTargetVals[step],
-			# maxForce = 50)
+			self.robot.act(step)
 			time.sleep(0.001)
-			# #print(step)
 
 	def generateTargetValues(self):
 		frontTargetVals = (numpy.sin(c.frequency_front * numpy.linspace(0, 2*pi, c.simulationLength) + c.phaseOffset_front)) * c.amplitude_front

@@ -2,15 +2,16 @@ import pybullet as p
 import pybullet_data
 import pyrosim.pyrosim as pyrosim
 from sensor import SENSOR
+from motor import MOTOR
 
 class ROBOT:
 
 	def __init__(self, p):
-		self.motors = {}
 
 		self.robotId = p.loadURDF("body.urdf")
 		pyrosim.Prepare_To_Simulate(self.robotId)
 		self.prepare_to_sense()
+		self.prepare_to_act()
 
 	#def prepare_to_simulate(self):
 		#idk
@@ -20,6 +21,15 @@ class ROBOT:
 		for linkName in pyrosim.linkNamesToIndices:
 			self.sensors[linkName] = SENSOR(linkName)
 
+	def prepare_to_act(self):
+		self.motors = {}
+		for jointName in pyrosim.jointNamesToIndices:
+			self.motors[jointName] = MOTOR(jointName) 
+
 	def sense(self, t):
-			for i in self.sensors:
-				self.sensors[i].get_value(t)
+		for sensor in self.sensors.values():
+			sensor.get_value(t)
+
+	def act(self, i):
+		for motor in self.motors.values():
+			motor.set_value(self.robotId, i)
