@@ -19,13 +19,13 @@ class SIMULATION:
 
 	def __del__(self):
 		p.disconnect()
-		print('destruction')
 		
 	def run(self):
 		for step in range(c.simulationLength):
-			print(step)
+			# print(step)
 			p.stepSimulation()
 			self.robot.sense(step)
+			self.robot.think()
 			self.robot.act(step)
 			time.sleep(0.001)
 
